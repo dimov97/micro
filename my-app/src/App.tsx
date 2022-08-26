@@ -3,6 +3,9 @@ import './App.css';
 import {TopCars} from "./Components/TopCars/TopCars";
 import {Button} from "./Components/Button/Button";
 import {Filter} from "./Components/Filter/Filter";
+import {FullImput} from "./Components/FullImput/FullImput";
+import {Input} from "./Components/Input+button/Input";
+import {Button2} from "./Components/Input+button/Button2";
 
 export type filterType = 'all'|'Dollars'|'RUBLS'
 export type moneyType = {
@@ -22,6 +25,22 @@ function App() {
         {banknots: 'Dollars', value: 50, number: ' x1234567890'},
         {banknots: 'RUBLS', value: 50, number: ' v1234567890'},
     ])
+    let [message, setMessage] = useState([
+        {message:'message1'},
+        {message:'message2'},
+        {message:'message3'}
+    ])
+
+    function addMessage(title:string) {
+        let newMessage = {message:title}
+        setMessage([newMessage,...message])
+    }
+    let [title, setTitle] = useState('')
+
+    function button2Handler() {
+        addMessage(title)
+        setTitle('')
+    }
 
     let [filter, setFilter] = useState<filterType>('all')
     let currentMoney = money
@@ -69,6 +88,14 @@ function App() {
             <Filter filterMoney={filterMoney}
                     currentMoney={currentMoney}
             />
+            <FullImput addMessage={addMessage}/>
+            <Input setTitle={setTitle} title={title}/>
+            <Button2 name={'+'} callback={button2Handler}/>
+            {message.map((m, index)=>{
+                return(
+                    <div key={index}>{m.message}</div>
+                )
+            })}
 
         </>
     )
